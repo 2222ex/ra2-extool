@@ -14,6 +14,29 @@ std::vector<std::shared_ptr<BaseModule>> module_list;
 #include <httplib.h>
 #include <nlohmann/json.hpp>
 
+BOOL EnableDebugPrivilege()
+{
+    HANDLE hToken;
+    TOKEN_PRIVILEGES tp;
+    LUID luid;
+
+    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &hToken))
+        return FALSE;
+
+    if (!LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &luid))
+        return FALSE;
+
+    tp.PrivilegeCount = 1;
+    tp.Privileges[0].Luid = luid;
+    tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+    if (!AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL))
+        return FALSE;
+
+    CloseHandle(hToken);
+    return TRUE;
+}
+
 struct InitResult
 {
     bool is_success;
@@ -29,6 +52,8 @@ void Init()
     httplib::Client cli("localhost", TaskManagerHttpServer::kPort);
     std::string err_msg;
 
+    EnableDebugPrivilege();
+
     if (MH_Initialize() != MH_OK)
     {
         err_msg = "MH_Initialize failed";
@@ -40,7 +65,7 @@ void Init()
     }
 
     auto &client = ClientModuleSingleton::instance();
-    client.InitModuleInfo("client.dll");
+    client.InitModuleInfo("");
 
     if (client.InitClient(err_msg) == false)
     {

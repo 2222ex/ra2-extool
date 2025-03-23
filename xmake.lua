@@ -25,8 +25,9 @@ set_languages("c++23")
 add_includedirs("src/base")
 
 
-add_defines("NOMINMAX","WIN32")
-
+add_defines("NOMINMAX")
+add_includedirs("src/common/utils")
+add_files("src/common/utils/*.cpp")
 
 target("task_manager")
     set_default(true)
@@ -50,6 +51,8 @@ target("task_manager")
     add_files("src/task_manager/window/*.cpp")
     add_files("src/task_manager/utils/*.cpp")
     add_files("src/task_manager/http/*.cpp")
+
+    
 
     add_links("user32", "gdi32","advapi32.lib")
 

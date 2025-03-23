@@ -21,6 +21,7 @@ bool TaskManagerHttpServer::InitHttpServer()
         TaskManagerHttpServer::kDllInitSuccRequestPath,
         [](const httplib::Request &req, httplib::Response &res)
         {
+            Logger::Log()->info("dll init success");
             Response response = {true, "success", {}};
             nlohmann::json ret_json = response;
             res.set_content(ret_json.dump(), "appliation/json");
@@ -30,6 +31,7 @@ bool TaskManagerHttpServer::InitHttpServer()
         TaskManagerHttpServer::kDllInitFailedRequestPath,
         [](const httplib::Request &req, httplib::Response &res)
         {
+            Logger::Log()->error("dll init failed");
             Response response = {true, "success", {}};
             nlohmann::json ret_json = response;
             res.set_content(ret_json.dump(), "appliation/json");

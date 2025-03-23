@@ -39,7 +39,4 @@
 
 namespace fs = std::filesystem;
 
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
-
 #endif // STDAFX_H

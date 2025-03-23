@@ -2,6 +2,7 @@
 
 #include "test_window.h"
 
+#include "../../task_handler/http/http_server.h"
 #include "../injector.h"
 #include "../launcher.h"
 
@@ -62,7 +63,7 @@ void TestWindow::render_window()
     static std::string http_tip = "Waiting for call http";
     ImGui::Text(http_tip.c_str());
 
-    static httplib::Client cli("localhost", 24960);
+    static httplib::Client cli("localhost", TaskHandlerHttpServer::kPort);
 
     if (ImGui::Button("f1"))
     {

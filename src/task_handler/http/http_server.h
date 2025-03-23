@@ -5,7 +5,8 @@
 
 namespace TaskHandlerHttpServer
 {
-
+const std::string kEnterMenuRequestPath = "/enter_menu";
+const std::string kQuickSave = "/quick_save";
 const int kPort = 24960;
 bool InitHttpServer();
 };

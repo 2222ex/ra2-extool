@@ -42,5 +42,5 @@ bool ClientModule::InitClient(std::string &err_msg)
         }
     }
 
-    return false;
+    return true;
 }
